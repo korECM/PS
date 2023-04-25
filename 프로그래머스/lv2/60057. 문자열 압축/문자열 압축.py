@@ -3,30 +3,24 @@ def solution(s):
     min_length = s_len
     for i in range(1, int(s_len / 2) + 1):
         result = ""
-        temp = []
-        start_position = 0
-        while start_position < s_len:
-            temp.append(s[start_position:start_position + i])
-            start_position += i
-        # print(temp)
+        chunks = chunk_str(s, i)
         count = 1
-        index = 0
-        while index < len(temp):
-            # print(f"index: {index}, count: {count}, result: {result}")
-            if index == len(temp) - 1:
-                if count > 1:
-                    result += str(count)
-                result += temp[index]
-                break
-            if temp[index] == temp[index + 1]:
+        for a, b in zip(chunks, chunks[1:] + [""]):
+            if a == b:
                 count += 1
             else:
                 if count > 1:
                     result += str(count)
-                result += temp[index]
+                result += a
                 count = 1
-            index += 1
-        # print(result)
         min_length = min(min_length, len(result))
-        # print(min_length)
     return min_length
+
+
+def chunk_str(s, size):
+    chunks = []
+    start_position = 0
+    while start_position < len(s):
+        chunks.append(s[start_position:start_position + size])
+        start_position += size
+    return chunks
