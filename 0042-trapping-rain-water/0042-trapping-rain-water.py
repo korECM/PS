@@ -1,15 +1,15 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
         volume = 0
-        stack = []
-        for i, h in enumerate(height):
-            while stack and h > stack[-1][1]:
-                _, top_height = stack.pop()
-                if len(stack) == 0:
-                    break
-                last_index, last_height = stack[-1]
-                distance = i - last_index - 1
-                waters = min(h, last_height) - top_height
-                volume += distance * waters
-            stack.append((i, h))
+        left, right = 0, len(height) - 1
+        left_max, right_max = height[left], height[right]
+        while left < right:
+            left_max = max(left_max, height[left])
+            right_max = max(right_max, height[right])
+            if left_max >= right_max:
+                volume += right_max - height[right]
+                right -= 1
+            else:
+                volume += left_max - height[left]
+                left += 1
         return volume
