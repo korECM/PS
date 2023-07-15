@@ -7,4 +7,4 @@ class Solution:
         for s in strs:
             key = "".join(sorted(s))
             d[key].append(s)
-        return [v for v in d.values()]
+        return list(d.values())
