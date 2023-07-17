@@ -20,7 +20,7 @@ class Solution:
         for i in range(1, len(nums) - 1):
             output[i] = left[i - 1] * right[i + 1]
 
-        # left   : [a    , ab  , abc, abcd, abcde]
-        # right  : [abcde, bcde , cde , de , e   ]
-        # output : [bcde, acde, abde, abce, abcd]
+        # left   : [a    , ab   , abc , abcd, abcde]
+        # right  : [abcde, bcde , cde , de  , e    ]
+        # output : [bcde , acde , abde, abce, abcd ]
         return output
