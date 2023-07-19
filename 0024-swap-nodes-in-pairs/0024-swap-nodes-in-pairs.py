@@ -1,20 +1,20 @@
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        dummy = root = ListNode()
+        prev = root = ListNode()
+        prev.next = head
         cur = head
 
         while cur and cur.next:
-            # dummy cur cur.next
-            dummy.next = cur.next
-            cur.next = cur.next.next
-            dummy.next.next = cur
-            # dummy cur.next cur
-            dummy = cur
-            # cur.next cur/dummy
-            cur = cur.next
-            # cur.next dummy cur
+            # prev->cur->b->next
+            b = cur.next
+            cur.next = b.next
+            # prev b cur->next
+            b.next = cur
+            # prev b->cur->next
+            prev.next = b
+            # prev->b->cur->next
 
-        if cur:
-            dummy.next = cur
+            prev = prev.next.next
+            cur = cur.next
 
         return root.next
