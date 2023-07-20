@@ -1,22 +1,14 @@
 class Solution:
     def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        odd_root = odd_dummy = ListNode()
-        even_root = even_dummy = ListNode()
+        if not head:
+            return None
 
-        is_odd = True
+        odd = head
+        even = even_head = head.next
 
-        while head:
-            if is_odd:
-                odd_dummy.next = head
-                odd_dummy = head
-            else:
-                even_dummy.next = head
-                even_dummy = head
+        while even and even.next:
+            odd.next, even.next = odd.next.next, even.next.next
+            odd, even = odd.next, even.next
 
-            head = head.next
-            is_odd = not is_odd
-
-        even_dummy.next = None
-
-        odd_dummy.next = even_root.next
-        return odd_root.next
+        odd.next = even_head
+        return head
