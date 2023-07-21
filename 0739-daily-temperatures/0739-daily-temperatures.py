@@ -6,8 +6,8 @@ class Solution:
         result = [0] * len(temperatures)
         stack = []
         for day, t in enumerate(temperatures):
-            while stack and stack[-1][1] < t:
-                s_day = stack.pop()[0]
+            while stack and temperatures[stack[-1]] < t:
+                s_day = stack.pop()
                 result[s_day] = day - s_day
-            stack.append((day, t))
+            stack.append(day)
         return result
