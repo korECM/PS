@@ -1,10 +1,15 @@
+from collections import Counter
+
+
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
-        if not s:
-            return ""
-        str_set = set(s)
-        for c in sorted(str_set):
-            index = s.find(c)
-            suffix = s[index:]
-            if str_set == set(suffix):
-                return c + self.removeDuplicateLetters(suffix.replace(c, ""))
+        counter, seen, stack = Counter(s), set(), []
+        for c in s:
+            counter[c] -= 1
+            if c in seen:
+                continue
+            while stack and c < stack[-1] and counter[stack[-1]] > 0:
+                seen.remove(stack.pop())
+            seen.add(c)
+            stack.append(c)
+        return "".join(stack)
