@@ -1,11 +1,14 @@
+from typing import List, Optional
+
+
 class MyCircularQueue:
-    data: list[int]
+    data: List[Optional[int]]
     size: int
     head: int
     tail: int
 
     def __init__(self, k: int):
-        self.data = [-1] * k
+        self.data = [None] * k
         self.size = k
         self.head = 0
         self.tail = 0
@@ -20,7 +23,7 @@ class MyCircularQueue:
     def deQueue(self) -> bool:
         if self.isEmpty():
             return False
-        self.data[self.tail] = -1
+        self.data[self.tail] = None
         self.tail = (self.tail + 1) % self.size
         return True
 
@@ -35,7 +38,7 @@ class MyCircularQueue:
         return self.data[(self.head - 1) % self.size]
 
     def isEmpty(self) -> bool:
-        return self.head == self.tail and self.data[self.head] == -1
+        return self.head == self.tail and self.data[self.head] is None
 
     def isFull(self) -> bool:
-        return self.head == self.tail and self.data[self.head] != -1
+        return self.head == self.tail and self.data[self.head] is not None
