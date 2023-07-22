@@ -10,18 +10,14 @@ class MyQueue:
         self.a_stack.append(x)
 
     def pop(self) -> int:
-        if self.b_stack:
-            return self.b_stack.pop()
-        for _ in range(len(self.a_stack)):
-            self.b_stack.append(self.a_stack.pop())
+        self.peek()
         return self.b_stack.pop()
 
     def peek(self) -> int:
-        if self.b_stack:
-            return self.b_stack[-1]
-        for _ in range(len(self.a_stack)):
-            self.b_stack.append(self.a_stack.pop())
+        if not self.b_stack:
+            while self.a_stack:
+                self.b_stack.append(self.a_stack.pop())
         return self.b_stack[-1]
 
     def empty(self) -> bool:
-        return len(self.a_stack) == 0 and len(self.b_stack) == 0
+        return self.a_stack == [] and self.b_stack == []
