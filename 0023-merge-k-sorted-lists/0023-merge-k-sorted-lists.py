@@ -10,8 +10,7 @@ class ListNode:
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         root = head = ListNode()
-        while None in lists:
-            lists.remove(None)
+        lists = list(filter(lambda x: x is not None, lists))
         while lists:
             index_min = min(range(len(lists)), key=lambda i: lists[i].val)
             head.next = lists[index_min]
