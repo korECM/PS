@@ -8,5 +8,4 @@ class Solution:
             else:
                 result = max(result, index - start + 1)
             used[char] = index
-
         return result
