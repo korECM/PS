@@ -9,11 +9,10 @@ class Solution:
         def dfs(elements: List[int]):
             if len(elements) == 0:
                 results.append(prev_elements[:])
-            for e in elements:
-                next_elements = elements[:]
-                next_elements.remove(e)
+            for i in range(len(elements)):
+                next_elements = elements[:i] + elements[i + 1:]
 
-                prev_elements.append(e)
+                prev_elements.append(elements[i])
                 dfs(next_elements)
                 prev_elements.pop()
 
