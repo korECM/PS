@@ -11,9 +11,7 @@ class Solution:
             if sum >= target or start_index >= len(candidates):
                 return
             for i in range(start_index, len(candidates)):
-                elements.append(candidates[i])
-                dfs(elements, i, sum + candidates[i])
-                elements.pop()
+                dfs(elements + [candidates[i]], i, sum + candidates[i])
 
         dfs()
         return results
