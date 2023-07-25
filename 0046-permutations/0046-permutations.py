@@ -8,7 +8,7 @@ class Solution:
 
         def dfs(elements: List[int]):
             if len(elements) == 0:
-                results.append(prev_elements[:])
+                results.append([*prev_elements])
                 return
             for i in range(len(elements)):
                 prev_elements.append(elements[i])
