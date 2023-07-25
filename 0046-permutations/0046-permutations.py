@@ -4,14 +4,18 @@ from typing import List
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
         results = []
+        prev_elements = []
 
-        def dfs(visited: List[int]):
-            if len(visited) == len(nums):
-                results.append(list(map(lambda x: nums[x], visited)))
-            for j in range(len(nums)):
-                if j not in visited:
-                    dfs(visited + [j])
+        def dfs(elements: List[int]):
+            if len(elements) == 0:
+                results.append(prev_elements[:])
+            for e in elements:
+                next_elements = elements[:]
+                next_elements.remove(e)
 
-        for i in range(len(nums)):
-            dfs([i])
+                prev_elements.append(e)
+                dfs(next_elements)
+                prev_elements.pop()
+
+        dfs(nums)
         return results
