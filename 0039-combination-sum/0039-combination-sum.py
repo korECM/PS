@@ -8,7 +8,7 @@ class Solution:
         def dfs(elements: List[int] = [], start_index: int = 0, sum: int = 0):
             if sum == target:
                 results.append([*elements])
-            if sum >= target or start_index >= len(candidates):
+            if sum >= target:
                 return
             for i in range(start_index, len(candidates)):
                 dfs(elements + [candidates[i]], i, sum + candidates[i])
