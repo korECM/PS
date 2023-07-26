@@ -4,16 +4,13 @@ from typing import List
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         results = []
-        prev_elements = []
 
-        def dfs(elements: List[int]):
-            if len(elements) == 0:
-                results.append([*prev_elements])
+        def dfs(elements: List[int], start_index: int, acc: List[int] = []):
+            if len(elements) == start_index:
+                results.append(acc)
                 return
-            prev_elements.append(elements[0])
-            dfs(elements[1:])
-            prev_elements.pop()
-            dfs(elements[1:])
+            dfs(elements, start_index + 1, acc + [elements[start_index]])
+            dfs(elements, start_index + 1, acc)
 
-        dfs(nums)
+        dfs(nums, 0)
         return results
