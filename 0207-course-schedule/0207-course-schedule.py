@@ -1,9 +1,10 @@
+from collections import defaultdict
 from typing import List
 
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        graph = {k: [] for k in range(numCourses)}
+        graph = defaultdict(list)
         for a, b in prerequisites:
             graph[a].append(b)
         traced = set()
@@ -27,7 +28,7 @@ class Solution:
             visited.add(x)
             return True
 
-        for i in graph:
+        for i in list(graph):
             if not dfs(i):
                 return False
 
