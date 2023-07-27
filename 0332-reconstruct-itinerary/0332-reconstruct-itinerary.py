@@ -14,7 +14,6 @@ class Solution:
                 return
             to_list = ticket_map[fr]
             if path_length == itinerary_length:
-                print(path)
                 candidates[0] = path
 
             for to, index in to_list:
