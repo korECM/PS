@@ -15,5 +15,4 @@ class Solution:
             route.append(f)
 
         dfs("JFK")
-
         return route[::-1]
