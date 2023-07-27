@@ -29,8 +29,6 @@ class Solution:
 
     def build_map(self, tickets: List[List[str]]) -> Dict[str, List[tuple[str, int]]]:
         ticket_map: defaultdict[str, List[tuple[str, int]]] = defaultdict(list)
-        for i, ticket in enumerate(tickets):
+        for i, ticket in enumerate(sorted(tickets)):
             ticket_map[ticket[0]].append((ticket[1], i))
-        for key in ticket_map:
-            ticket_map[key].sort()
         return ticket_map
