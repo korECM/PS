@@ -18,11 +18,8 @@ class Solution:
             if root is None:
                 return 0
 
-            left_dist = right_dist = 0
-            if root.left:
-                left_dist = dfs(root.left, root.val)
-            if root.right:
-                right_dist = dfs(root.right, root.val)
+            left_dist = dfs(root.left, root.val)
+            right_dist = dfs(root.right, root.val)
             self.dist = max(self.dist, left_dist + right_dist)
             if root.val == prev_val:
                 return max(left_dist, right_dist) + 1
