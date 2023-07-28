@@ -1,3 +1,4 @@
+from collections import deque
 from typing import Optional
 
 
@@ -10,9 +11,16 @@ class TreeNode:
 
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        def traverse(node: Optional[TreeNode], depth: int):
-            if not node:
-                return depth - 1
-            return max(traverse(node.left, depth + 1), traverse(node.right, depth + 1))
-
-        return traverse(root, 1)
+        if root is None:
+            return 0
+        queue = deque([root])
+        depth = 0
+        while queue:
+            depth += 1
+            for _ in range(len(queue)):
+                cur_root = queue.popleft()
+                if cur_root.left:
+                    queue.append(cur_root.left)
+                if cur_root.right:
+                    queue.append(cur_root.right)
+        return depth
