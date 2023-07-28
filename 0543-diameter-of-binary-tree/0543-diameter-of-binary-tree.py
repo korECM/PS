@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 
 class TreeNode:
@@ -9,14 +9,15 @@ class TreeNode:
 
 
 class Solution:
-    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        def dfs(root: Optional[TreeNode]) -> Tuple[int, int, int]:
-            if root is None:
-                return -1, -1, -1
-            left_depth, _, left_max_diameter = dfs(root.left)
-            right_depth, _, right_max_diameter = dfs(root.right)
-            depth = max(left_depth, right_depth) + 1
-            status = left_depth + right_depth + 2
-            return depth, status, max(left_max_diameter, right_max_diameter, status)
+    diameter: int = 0
 
-        return dfs(root)[2]
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        def dfs(root: Optional[TreeNode]) -> int:
+            if root is None:
+                return -1
+            left_depth, right_depth = dfs(root.left), dfs(root.right)
+            self.diameter = max(self.diameter, left_depth + right_depth + 2)
+            return max(left_depth, right_depth) + 1
+
+        dfs(root)
+        return self.diameter
