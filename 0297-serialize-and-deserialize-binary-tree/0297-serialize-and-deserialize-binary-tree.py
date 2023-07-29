@@ -22,7 +22,7 @@ class Codec:
     def deserialize(self, data: str) -> Optional[TreeNode]:
         if data == NULL:
             return None
-        elements = data.split(' ')
+        elements = data.split()
 
         root = TreeNode(int(elements[0]), None, None)
         node_queue = deque([root])
