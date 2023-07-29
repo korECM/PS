@@ -15,8 +15,7 @@ class Solution:
         def merge(r1: Optional[TreeNode], r2: Optional[TreeNode]) -> Optional[TreeNode]:
             if r1 is None or r2 is None:
                 return r1 if r1 else r2
-            if r1 and r2:
-                r1.val += r2.val
+            r1.val += r2.val
             r1.left = merge(r1.left, r2.left)
             r1.right = merge(r1.right, r2.right)
             return r1
