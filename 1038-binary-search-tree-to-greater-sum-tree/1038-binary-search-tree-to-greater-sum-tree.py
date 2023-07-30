@@ -11,11 +11,9 @@ class Solution:
     prefix_sum: int = 0
 
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        def dfs(root: TreeNode):
-            if root:
-                dfs(root.right)
-                root.val, self.prefix_sum = root.val + self.prefix_sum, root.val + self.prefix_sum
-                dfs(root.left)
-
-        dfs(root)
+        if root:
+            self.bstToGst(root.right)
+            self.prefix_sum += root.val
+            root.val = self.prefix_sum
+            self.bstToGst(root.left)
         return root
