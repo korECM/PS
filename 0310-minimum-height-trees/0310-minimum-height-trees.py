@@ -16,16 +16,15 @@ class Solution:
         for i in range(n):
             if len(graph[i]) == 1:
                 leaves.append(i)
-            
+
         while n > 2:
             n -= len(leaves)
             new_leaves = []
             for i in leaves:
                 neighbor = graph[i].pop()
-                del graph[i]
                 graph[neighbor].remove(i)
                 if len(graph[neighbor]) == 1:
                     new_leaves.append(neighbor)
             leaves = new_leaves
 
-        return graph.keys()
+        return leaves
