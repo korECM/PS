@@ -12,12 +12,10 @@ class TreeNode:
 
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
-        def construct(nums: List[int]) -> Optional[TreeNode]:
-            if not nums:
-                return None
-            mid_index = len(nums) // 2
-            root = TreeNode(val=nums[mid_index])
-            root.left = construct(nums[:mid_index])
-            root.right = construct(nums[mid_index + 1:])
-            return root
-        return construct(nums)
+        if not nums:
+            return None
+        mid_index = len(nums) // 2
+        root = TreeNode(val=nums[mid_index])
+        root.left = self.sortedArrayToBST(nums[:mid_index])
+        root.right = self.sortedArrayToBST(nums[mid_index + 1:])
+        return root
