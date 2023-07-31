@@ -14,9 +14,5 @@ def nums_input():
 
 
 n = num_input()
-data = []
-for i in range(2666801):
-    if '666' not in str(i):
-        continue
-    data.append(i)
+data = [i for i in range(2666801) if '666' in str(i)]
 print(data[n - 1])
