@@ -25,4 +25,4 @@ prime = 1000000007
 a, b, c = 0, 1, 1
 for i in range(1, n):
     a, b = b, (a + b) % prime
-print(b)
+print(b if n > 0 else 0)
