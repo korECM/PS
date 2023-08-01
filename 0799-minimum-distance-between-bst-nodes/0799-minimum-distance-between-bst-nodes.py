@@ -12,28 +12,16 @@ class TreeNode:
 
 
 class Solution:
-    min_diff: int = sys.maxsize
+    prev: int = -sys.maxsize
+    result: int = sys.maxsize
 
     def minDiffInBST(self, root: Optional[TreeNode]) -> int:
-        def get_max(node: Optional[TreeNode]):
-            if not node:
-                return -sys.maxsize
-            if node.right:
-                return get_max(node.right)
-            return node.val
+        if root.left:
+            self.minDiffInBST(root.left)
 
-        def get_min(node: Optional[TreeNode]):
-            if not node:
-                return sys.maxsize
-            if node.left:
-                return get_min(node.left)
-            return node.val
+        self.result = min(self.result, root.val - self.prev)
+        self.prev = root.val
 
-        def dfs(node: Optional[TreeNode]):
-            if node:
-                self.min_diff = min(self.min_diff, node.val - get_max(node.left), get_min(node.right) - node.val)
-                dfs(node.left)
-                dfs(node.right)
-
-        dfs(root)
-        return self.min_diff
+        if root.right:
+            self.minDiffInBST(root.right)
+        return self.result
