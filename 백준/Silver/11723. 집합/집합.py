@@ -14,26 +14,23 @@ def nums_input():
 
 
 n = num_input()
-my_set = set()
+my_set = 0
+all_set = 0b111111111111111111111
+
 for _ in range(n):
     commands = input().split()
     command = commands[0]
     if command == "all":
-        for i in range(1, 21):
-            my_set.add(i)
+        my_set = all_set
     elif command == "empty":
-        my_set.clear()
+        my_set = 0
     else:
         data = int(commands[1])
         if command == "add":
-            my_set.add(data)
+            my_set |= 1 << data
         elif command == "remove":
-            if data in my_set:
-                my_set.remove(data)
+            my_set &= ~(1 << data)
         elif command == "check":
-            print(1 if data in my_set else 0)
+            print(1 if my_set & (1 << data) else 0)
         elif command == "toggle":
-            if data in my_set:
-                my_set.remove(data)
-            else:
-                my_set.add(data)
+            my_set ^= (1 << data)
