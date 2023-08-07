@@ -1,5 +1,4 @@
 import sys
-from collections import defaultdict
 from typing import TypeVar
 
 
@@ -9,10 +8,6 @@ def input() -> str:
 
 def num_input() -> int:
     return int(input())
-
-
-def nums_input():
-    return map(int, input().split())
 
 
 T = TypeVar("T")
@@ -30,19 +25,6 @@ def move_generator(x: int, y: int,
         g_cx, g_cy = x + g_dx[g_i], y + g_dy[g_i]
         if g_cx in x_range and g_cy in y_range:
             yield g_cx, g_cy
-
-
-def create_graph() -> dict[T, list[T]]:
-    return defaultdict(list)
-
-
-def add_bidirectional_edge(graph: dict[T, list[T]], a: T, b: T):
-    graph[a].append(b)
-    graph[b].append(a)
-
-
-def add_directional_edge(graph: dict[T, list[T]], f: T, t: T):
-    graph[f].append(t)
 
 
 n = num_input()
