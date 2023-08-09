@@ -50,105 +50,37 @@ def add_directional_edge(graph: dict[T, list[T]], f: T, t: T):
     graph[f].append(t)
 
 
-target = [
-    # 1
-    {
-        "x": [0, 1, 2, 3],
-        "y": [0, 0, 0, 0]
-    },
-    {
-        "x": [0, 0, 0, 0],
-        "y": [0, 1, 2, 3]
-    },
-    # 2
-    {
-        "x": [0, 1, 0, 1],
-        "y": [0, 0, 1, 1]
-    },
-    # 3
-    {
-        "x": [0, 0, 0, 1],
-        "y": [0, 1, 2, 2]
-    },
-    {
-        "x": [1, 1, 1, 0],
-        "y": [0, 1, 2, 2]
-    },
-    {
-        "x": [0, 1, 2, 2],
-        "y": [1, 1, 1, 0]
-    },
-    {
-        "x": [0, 1, 2, 2],
-        "y": [0, 0, 0, 1]
-    },
-    {
-        "x": [0, 0, 1, 2],
-        "y": [1, 0, 0, 0]
-    },
-    {
-        "x": [0, 0, 1, 2],
-        "y": [0, 1, 1, 1]
-    },
-    {
-        "x": [1, 0, 0, 0],
-        "y": [0, 0, 1, 2]
-    },
-    {
-        "x": [0, 1, 1, 1],
-        "y": [0, 0, 1, 2]
-    },
-    # 4
-    {
-        "x": [0, 0, 1, 1],
-        "y": [0, 1, 1, 2]
-    },
-    {
-        "x": [1, 1, 0, 0],
-        "y": [0, 1, 1, 2]
-    },
-    {
-        "x": [0, 1, 1, 2],
-        "y": [1, 1, 0, 0]
-    },
-    {
-        "x": [0, 1, 1, 2],
-        "y": [0, 0, 1, 1]
-    },
-    # 5
-    {
-        "x": [0, 1, 1, 2],
-        "y": [0, 0, 1, 0],
-    },
-    {
-        "x": [0, 0, 1, 0],
-        "y": [0, 1, 1, 2]
-    },
-    {
-        "x": [0, 1, 1, 1],
-        "y": [1, 1, 0, 2]
-    },
-    {
-        "x": [0, 1, 1, 2],
-        "y": [1, 1, 0, 1]
-    }
-]
-
 n, m = nums_input()
+max_num = -sys.maxsize
 result = -sys.maxsize
 board = init_board(n, m, 0)
+visited = init_board(n, m, False)
 for i in range(n):
     board[i] = list(nums_input())
+    max_num = max(max_num, max(board[i]))
+
+
+def dfs(x: int, y: int, acc: int, cnt: int):
+    global result, max_num
+    if cnt == 4:
+        result = max(result, acc)
+        return
+    if result > acc + max_num * (4 - cnt):
+        return
+    for nx, ny in move_generator(x, y, range(0, m), range(0, n)):
+        if not visited[ny][nx]:
+            if cnt == 2:
+                visited[ny][nx] = True
+                dfs(x, y, acc + board[ny][nx], cnt + 1)
+                visited[ny][nx] = False
+            visited[ny][nx] = True
+            dfs(nx, ny, acc + board[ny][nx], cnt + 1)
+            visited[ny][nx] = False
+
 
 for y in range(n):
     for x in range(m):
-        for t in target:
-            score = 0
-            for i in range(4):
-                tx, ty = t["x"][i], t["y"][i]
-                if x + tx < 0 or x + tx >= m or y + ty < 0 or y + ty >= n:
-                    score = -sys.maxsize
-                    break
-                score += board[y + ty][x + tx]
-            result = max(result, score)
+        visited[y][x] = True
+        dfs(x, y, board[y][x], 1)
+        visited[y][x] = False
 print(result)
