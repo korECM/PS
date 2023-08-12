@@ -11,19 +11,19 @@ def num_input() -> int:
 def is_square(a: int):
     if a < 1:
         return False
-    return math.ceil(a ** 0.5) ** 2 == a
+    return (a ** 0.5).is_integer()
 
 
 def check(n: int):
     if is_square(n):
         return 1
-    ceil = math.ceil(n ** 0.5)
-    for i in range(ceil, 0, -1):
-        if is_square(n - i ** 2):
+    square_set = {i ** 2 for i in range(int(n ** 0.5), 0, -1)}
+    for i in square_set:
+        if n - i in square_set:
             return 2
-    for i in range(ceil, 0, -1):
-        for j in range(ceil, 0, -1):
-            if is_square(n - i ** 2 - j ** 2):
+    for i in square_set:
+        for j in square_set:
+            if n - i - j in square_set:
                 return 3
     return 4
 
