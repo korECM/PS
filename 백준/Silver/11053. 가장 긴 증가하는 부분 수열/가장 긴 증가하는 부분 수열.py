@@ -1,14 +1,27 @@
+import bisect
 import sys
 
 def input() -> str:
     return sys.stdin.readline().rstrip()
 
-n = int(input())
+
+def num_input() -> int:
+    return int(input())
+
+
+def nums_input():
+    return map(int, input().split())
+
+
+n = num_input()
 a = [0]
-dp = [0] * (n + 1)
-a.extend(map(int, input().split()))
+dp = [0]
+a.extend(nums_input())
+
 for i in range(1, n + 1):
-    for j in range(i):
-        if a[i] > a[j]:
-            dp[i] = max(dp[j] + 1, dp[i])
-print(max(dp))
+    if dp[-1] < a[i]:
+        dp.append(a[i])
+    else:
+        index = bisect.bisect_left(dp, a[i])
+        dp[index] = a[i]
+print(len(dp) - 1)
