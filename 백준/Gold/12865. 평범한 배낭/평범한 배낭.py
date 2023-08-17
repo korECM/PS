@@ -24,15 +24,27 @@ dp: dict[tuple[int, int], int] = defaultdict(int)
 
 
 def solve(i: int, remain: int):
-    if i < 0:
+    if i < 0 or remain <= 0:
         return 0
     if (i, remain) in dp:
         return dp[(i, remain)]
     w, v = info[i]
     if w > remain:
-        dp[(i, remain)] = solve(i - 1, remain)
+        if (i - 1, remain) in dp:
+            dp[(i, remain)] = dp[(i - 1, remain)]
+        else:
+            dp[(i, remain)] = solve(i - 1, remain)
     else:
-        dp[(i, remain)] = max(solve(i - 1, remain), solve(i - 1, remain - w) + v)
+        if (i - 1, remain) in dp:
+            if (i - 1, remain - w) in dp:
+                dp[(i, remain)] = max(dp[(i - 1, remain)], dp[(i - 1, remain - w)] + v)
+            else:
+                dp[(i, remain)] = max(dp[(i - 1, remain)], solve(i - 1, remain - w) + v)
+        else:
+            if (i - 1, remain - w) in dp:
+                dp[(i, remain)] = max(solve(i - 1, remain), dp[(i - 1, remain - w)] + v)
+            else:
+                dp[(i, remain)] = max(solve(i - 1, remain), solve(i - 1, remain - w) + v)
     return dp[(i, remain)]
 
 
