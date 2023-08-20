@@ -45,14 +45,14 @@ queue = deque([(1, 1, 1, 0)])
 dist[1][1][0] = 1
 while queue:
     x, y, step, bomb_count = queue.popleft()
+    if x == M and y == N:
+        break
     for nx, ny in move_generator(x, y, range(1, M + 1), range(1, N + 1)):
         target_cell = dist[ny][nx]
-        if board[ny][nx] == 0:
-            if target_cell[bomb_count] > step + 1:
-                target_cell[bomb_count] = step + 1
-                queue.append((nx, ny, step + 1, bomb_count))
-        elif bomb_count == 0:
-            if target_cell[1] > step + 1:
-                target_cell[1] = step + 1
-                queue.append((nx, ny, step + 1, 1))
+        if board[ny][nx] == 0 and target_cell[bomb_count] > step + 1:
+            target_cell[bomb_count] = step + 1
+            queue.append((nx, ny, step + 1, bomb_count))
+        elif bomb_count == 0 and target_cell[1] > step + 1:
+            target_cell[1] = step + 1
+            queue.append((nx, ny, step + 1, 1))
 print(min(dist[N][M]) if min(dist[N][M]) != sys.maxsize else -1)
