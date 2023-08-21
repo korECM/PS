@@ -29,28 +29,15 @@ class Array:
     def print_two(board: list[list[any]]):
         for b in board: print(*b)
 
-
 N, M = IO.nums()
-board = [[*IO.nums()] for _ in range(N)]
-prefix_sum_board = Array.init_two(N, N, 0)
+board = Array.init_two(N + 2, N + 2, 0)
+for y in range(N):
+    for x, e in enumerate(IO.nums()):
+        board[y + 1][x + 1] += e
+        board[y + 2][x + 1] += board[y + 1][x + 1]
+        board[y + 1][x + 2] += board[y + 1][x + 1]
+        board[y + 2][x + 2] -= board[y + 1][x + 1]
 operations = [[*IO.nums()] for _ in range(M)]
 
-for y in range(N):
-    for x in range(N):
-        prefix_sum_board[y][x] = board[y][x]
-        if y > 0:
-            prefix_sum_board[y][x] += prefix_sum_board[y - 1][x]
-        if x > 0:
-            prefix_sum_board[y][x] += prefix_sum_board[y][x - 1]
-        if x > 0 and y > 0:
-            prefix_sum_board[y][x] -= prefix_sum_board[y - 1][x - 1]
-
 for a, b, c, d in operations:
-    result = prefix_sum_board[c - 1][d - 1]
-    if b > 1:
-        result -= prefix_sum_board[c - 1][b - 2]
-    if a > 1:
-        result -= prefix_sum_board[a - 2][d - 1]
-    if a > 1 and b > 1:
-        result += prefix_sum_board[a - 2][b - 2]
-    print(result)
+    print(board[c][d] - board[c][b - 1] - board[a - 1][d] + board[a - 1][b - 1])
