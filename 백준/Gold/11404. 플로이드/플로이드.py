@@ -29,13 +29,12 @@ for _ in range(m):
 
 for k in range(1, n + 1):
     for a in range(1, n + 1):
+        if a == k: continue
         for b in range(1, n + 1):
-            if a != b:
-                board[a][b] = min(board[a][b], board[a][k] + board[k][b])
+            if a == b or b == k: continue
+            board[a][b] = min(board[a][b], board[a][k] + board[k][b])
 
-output = []
 for i in range(1, n + 1):
     for j in range(1, n + 1):
-        output.append(board[i][j] if board[i][j] != sys.maxsize else 0)
-    print(*output)
-    output.clear()
+        sys.stdout.write(str(board[i][j]) + ' ' if board[i][j] != sys.maxsize else '0 ')
+    sys.stdout.write('\n')
