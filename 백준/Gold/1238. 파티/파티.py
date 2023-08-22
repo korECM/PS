@@ -97,8 +97,12 @@ for _ in range(M):
     a, b, t = IO.nums()
     graph.add_directional_edge(a, b, t)
 
+time_mem = {}
+
 
 def calc_time(a: int, b: int):
+    if (a, b) in time_mem:
+        return time_mem[(a, b)]
     heap = [(0, a)]
     dist = {}
     while heap:
@@ -107,6 +111,7 @@ def calc_time(a: int, b: int):
             return time
         if node not in dist:
             dist[node] = time
+            time_mem[(a, node)] = time
             for next_node, add_time in graph[node]:
                 heapq.heappush(heap, (time + add_time, next_node))
 
