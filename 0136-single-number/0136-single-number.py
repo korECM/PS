@@ -1,7 +1,7 @@
-from collections import Counter
+from functools import reduce
 from typing import List
 
 
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        return Counter(nums).most_common()[-1][0]
+        return reduce(lambda a, b: a ^ b, nums)
