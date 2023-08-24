@@ -1,16 +1,17 @@
-import heapq
+from collections import deque
 from typing import List
 
 
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        adjust = 10 ** 5
-        answer = []
-        heap = [(-(x + adjust), i) for i, x in enumerate(nums[:k])]
-        heapq.heapify(heap)
-        answer.append(-heap[0][0] - adjust)
-        for i in range(1, len(nums) - k + 1):
-            while heap and heap[0][1] < i: heapq.heappop(heap)
-            heapq.heappush(heap, (-(nums[k + i - 1] + adjust), k + i - 1))
-            answer.append(-heap[0][0] - adjust)
+        deq, answer = deque(), []
+        for i in range(len(nums)):
+            if deq and i - deq[0] == k:
+                deq.popleft()
+            while deq and nums[deq[-1]] < nums[i]:
+                deq.pop()
+            deq.append(i)
+            if i + 1 >= k:
+                answer.append(nums[deq[0]])
+
         return answer
