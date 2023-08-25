@@ -1,5 +1,6 @@
 import sys
 from collections import defaultdict, deque
+from itertools import combinations
 from math import ceil
 from typing import TypeVar, Optional, Callable
 
@@ -39,52 +40,42 @@ class Move:
 
 N, M = IO.nums()
 board: list[list[int]] = [[*IO.nums()] for _ in range(N)]
-org_safe_area = N * M
+org_safe_area = -3
 virus_pos: list[tuple[int, int]] = []
+blanks = []
 for y in range(N):
     for x in range(M):
-        if board[y][x] != 0:
-            org_safe_area -= 1
-        if board[y][x] == 2:
+        if board[y][x] == 0:
+            blanks.append((x, y))
+            org_safe_area += 1
+        elif board[y][x] == 2:
             virus_pos.append((x, y))
 
 answer = 0
 
 
 def calc(new_wall: list[tuple[int, int]]) -> int:
-    new_virus = []
-    should_calc = True
     queue = deque(virus_pos)
+    visited = set(virus_pos + new_wall)
+    new_virus_count = 0
     while queue:
         x, y = queue.popleft()
         for nx, ny in Move.generate_hv(x, y, range(0, M), range(0, N)):
-            if (nx, ny) not in new_wall and board[ny][nx] == 0:
-                board[ny][nx] = 2
-                new_virus.append((nx, ny))
+            if (nx, ny) not in visited and board[ny][nx] == 0:
+                visited.add((nx, ny))
                 queue.append((nx, ny))
-        if answer > 0 and org_safe_area - len(new_virus) - 3 < answer:
-            should_calc = False
+                new_virus_count += 1
+        if answer > 0 and org_safe_area - new_virus_count < answer:
+            new_virus_count += 1000000
             break
-    for x, y in new_virus:
-        board[y][x] = 0
-    return 0 if not should_calc else org_safe_area - len(new_virus) - 3
+    return org_safe_area - new_virus_count
 
 
-def check(new_wall: list[tuple[int, int]]):
+def check():
     global answer
-    if len(new_wall) == 4:
-        answer = max(answer, calc(new_wall[1:]))
-        return
-
-    last_x, last_y = new_wall[-1]
-    for x in range(last_x + 1, M):
-        if board[max(last_y, 0)][x] == 0:
-            check(new_wall + [(x, max(last_y, 0))])
-    for y in range(last_y + 1, N):
-        for x in range(M):
-            if board[y][x] == 0:
-                check(new_wall + [(x, y)])
+    for walls in combinations(blanks, 3):
+        answer = max(answer, calc(list(walls)))
 
 
-check([(-1, -1)])
+check()
 print(answer)
