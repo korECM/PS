@@ -1,13 +1,6 @@
-import sys
 from collections import deque
 
-class IO:
-    @staticmethod
-    def nums(): return map(int, sys.stdin.readline().split())
-
-
-A, B = IO.nums()
-
+A, B = map(int, input().split())
 
 def solve():
     queue = deque([(A, 1)])
@@ -18,10 +11,6 @@ def solve():
             continue
         if n == B:
             return t
-        # if n * 2 == B:
-        #     return t + 1
-        # if n * 10 + 1 == B:
-        #     return t + 1
         if n * 2 not in dp:
             dp[n * 2] = t + 1
             queue.append((n * 2, t + 1))
