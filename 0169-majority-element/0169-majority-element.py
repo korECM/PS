@@ -3,5 +3,11 @@ from typing import List
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        nums.sort()
-        return nums[len(nums) // 2]
+        if not nums:
+            return None
+        if len(nums) == 1:
+            return nums[0]
+        half = len(nums) // 2
+        a = self.majorityElement(nums[:half])
+        b = self.majorityElement(nums[half:])
+        return [a, b][nums.count(b) > half]
