@@ -15,7 +15,7 @@ class Solution:
                 if count == target[0][1] and answer[index] is None:
                     answer[index] = target.popleft()
                     count += 1
-                if answer[index] is None:
+                elif answer[index] is None:
                     count += 1
                 index += 1
         return answer
