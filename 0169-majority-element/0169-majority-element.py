@@ -3,9 +3,7 @@ from typing import List
 
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        if not nums:
-            return None
-        if len(nums) == 1:
+        if len(nums) <= 2:
             return nums[0]
         half = len(nums) // 2
         a = self.majorityElement(nums[:half])
