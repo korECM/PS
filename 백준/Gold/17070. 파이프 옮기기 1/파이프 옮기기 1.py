@@ -18,19 +18,10 @@ else:
                 down = y + 1 < N and not board[y + 1][x]
                 diagonal = right and down and not board[y + 1][x + 1]
 
-                if k == 0 and right:
+                if diagonal:
+                    dp[y + 1][x + 1][2] += dp[y][x][k]
+                if k != 1 and right:
                     dp[y][x + 1][0] += dp[y][x][k]
-                    if diagonal:
-                        dp[y + 1][x + 1][2] += dp[y][x][k]
-                elif k == 1 and down:
+                if k != 0 and down:
                     dp[y + 1][x][1] += dp[y][x][k]
-                    if diagonal:
-                        dp[y + 1][x + 1][2] += dp[y][x][k]
-                elif k == 2:
-                    if right:
-                        dp[y][x + 1][0] += dp[y][x][k]
-                    if down:
-                        dp[y + 1][x][1] += dp[y][x][k]
-                    if diagonal:
-                        dp[y + 1][x + 1][2] += dp[y][x][k]
     print(sum(dp[N - 1][N - 1]))
