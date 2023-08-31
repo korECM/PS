@@ -1,9 +1,5 @@
 from sys import stdin as ssi
 
-class IO:
-    @staticmethod
-    def nums(): return map(int, ssi.readline().split())
-
 N, K = map(int, ssi.readline().split())
 cargo = [[*map(int, ssi.readline().split())] for _ in range(N)]
 pack = []
