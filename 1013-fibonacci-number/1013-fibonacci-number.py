@@ -1,12 +1,8 @@
 class Solution:
-    dp: list[int] = [None for _ in range(0, 31)]
-
-    def __init__(self):
-        self.dp[0] = 0
-        self.dp[1] = 1
 
     def fib(self, n: int) -> int:
-        if self.dp[n] is not None:
-            return self.dp[n]
-        self.dp[n] = self.fib(n - 1) + self.fib(n - 2)
-        return self.dp[n]
+        dp = [0 for _ in range(max(n + 1, 2))]
+        dp[1] = 1
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2]
+        return dp[n]
