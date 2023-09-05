@@ -13,6 +13,9 @@ else:
     answer_count = 0
     while queue:
         pos, time = queue.popleft()
+        if dp_map[pos] < time:
+            continue
+        dp_map[pos] = time
         if pos == b:
             answer_count += 1
             if min_time == sys.maxsize:
@@ -23,16 +26,10 @@ else:
         if time > min_time:
             break
         if pos <= 10 ** 5:
-            if dp_map[pos * 2] >= time + 1:
-                dp_map[pos * 2] = time + 1
-                queue.append((pos * 2, time + 1))
+            queue.append((pos * 2, time + 1))
         if pos > 0:
-            if dp_map[pos - 1] >= time + 1:
-                dp_map[pos - 1] = time + 1
-                queue.append((pos - 1, time + 1))
+            queue.append((pos - 1, time + 1))
         if pos <= 10 ** 5:
-            if dp_map[pos + 1] >= time + 1:
-                dp_map[pos + 1] = time + 1
-                queue.append((pos + 1, time + 1))
+            queue.append((pos + 1, time + 1))
     print(min_time)
     print(answer_count)
