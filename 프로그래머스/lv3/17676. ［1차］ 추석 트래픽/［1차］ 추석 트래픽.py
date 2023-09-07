@@ -23,8 +23,7 @@ def solution(lines):
     end_time_based = deque(sorted(times, key=lambda x: x[1]))
     count = 0
     while start_time_based and end_time_based:
-        st, et = start_time_based[0], end_time_based[0]
-        t = min(st[0], et[1])
+        t = min(start_time_based[0][0], end_time_based[0][1])
         while start_time_based:
             if start_time_based[0][0] < t + 1000:
                 count += 1
@@ -44,7 +43,3 @@ def solution(lines):
 
     return answer
 
-
-# 2016-09-15 03:10:33.020 0.011s
-
-solution(["2016-09-15 01:00:04.001 2.0s", "2016-09-15 01:00:07.000 2s"])
