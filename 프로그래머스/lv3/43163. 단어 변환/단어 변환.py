@@ -1,40 +1,35 @@
 from collections import defaultdict, deque
+from itertools import combinations
 
 
-def calc_diff(a,b):
+def calc_diff(a, b):
     count = 0
-    for i in range(len(a)):
-        if a[i] != b[i]:
+    for w1, w2 in zip(a, b):
+        if w1 != w2:
             count += 1
         if count > 1:
             return count
     return count
 
+
 def solution(begin, target, words):
-    data = defaultdict(list)
-    for i in range(len(words) - 1):
-        a = words[i]
-        for j in range(i + 1, len(words)):
-            b = words[j]
-            if calc_diff(a,b) == 1:
-                data[a].append(b)
-                data[b].append(a)
-    
-    for i in range(len(words)):
-        a = words[i]
-        if calc_diff(a,begin) == 1:
-            data[a].append(begin)
-            data[begin].append(a)
-    
-    check_map = {begin: 0}
+    word_connection = defaultdict(list)
+    for a, b in combinations(words + [begin], 2):
+        if calc_diff(a, b) == 1:
+            word_connection[a].append(b)
+            word_connection[b].append(a)
+
+    dp_map = {begin: 0}
     queue = deque([(begin, 0)])
     while queue:
         word, count = queue.popleft()
         if word == target:
             return count
-        for n in data[word]:
-            if n not in check_map or check_map[n] > count + 1:
-                check_map[n] = count + 1
-                queue.append((n, count + 1))
-    
+
+        new_count = count + 1
+        for next in word_connection[word]:
+            if next not in dp_map or dp_map[next] > new_count:
+                dp_map[next] = new_count
+                queue.append((next, new_count))
+
     return 0
