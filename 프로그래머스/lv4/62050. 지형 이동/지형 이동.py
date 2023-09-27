@@ -1,5 +1,3 @@
-from collections import deque
-from itertools import combinations, product
 import heapq
 
 dx,dy = [1, 0, 0, -1], [0,1 , -1, 0]
@@ -22,9 +20,8 @@ def solution(land, height):
         for i in range(4):
             nx, ny = x + dx[i], y + dy[i]
             if 0 <= nx < N and 0 <= ny < N:
-                if abs(land[ny][nx] - land[y][x]) > height:
-                    heapq.heappush(heap, (abs(land[ny][nx] - land[y][x]), nx, ny))
-                else:
-                    heapq.heappush(heap, (0, nx, ny))
+                diff = abs(land[ny][nx] - land[y][x])
+                new_cost = diff if diff > height else 0
+                heapq.heappush(heap, (new_cost, nx, ny))
 
     return answer
