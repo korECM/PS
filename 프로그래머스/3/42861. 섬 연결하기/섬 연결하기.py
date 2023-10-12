@@ -5,13 +5,10 @@ def solution(n, costs):
     answer = 0
     
     graph = defaultdict(list)
-    targets = set()
     for info in costs:
         a, b, cost = info
         graph[a].append((b, cost))
         graph[b].append((a, cost))
-        targets.add(a)
-        targets.add(b)
         
     visited = set()
     heap = [(0, 0)]
@@ -24,7 +21,7 @@ def solution(n, costs):
         visited.add(i)
         answer += cost
         
-        if len(visited) == targets:
+        if len(visited) == n:
             break
         
         for next_i, next_cost in graph[i]:
